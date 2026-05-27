@@ -1,0 +1,32 @@
+[
+{
+  "directory": "D:/Documents/MCU DRIVER/STM32F407VGT6/Debug",
+  "command": "C:\\Users\\Admin\\AppData\\Local\\stm32cube\\bundles\\gnu-tools-for-stm32\\13.3.1+st.9\\bin\\arm-none-eabi-gcc.exe -I\"D:/Documents/MCU DRIVER/STM32F407VGT6/Drivers/Inc\" -mcpu=Cortex-M4 -std=gnu11 -mfpu=fpv4-sp-d16  --specs=nano.specs -mthumb -Wall -Werror -x assembler-with-cpp -g -o CMakeFiles\\STM32F407VGT6.dir\\Startup\\startup_stm32f407vgtx.s.obj -c \"D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Startup\\startup_stm32f407vgtx.s\"",
+  "file": "D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Startup\\startup_stm32f407vgtx.s",
+  "output": "CMakeFiles\\STM32F407VGT6.dir\\Startup\\startup_stm32f407vgtx.s.obj"
+},
+{
+  "directory": "D:/Documents/MCU DRIVER/STM32F407VGT6/Debug",
+  "command": "C:\\Users\\Admin\\AppData\\Local\\stm32cube\\bundles\\gnu-tools-for-stm32\\13.3.1+st.9\\bin\\arm-none-eabi-gcc.exe -I\"D:/Documents/MCU DRIVER/STM32F407VGT6/Drivers/Inc\" -mcpu=Cortex-M4 -std=gnu11 -mfpu=fpv4-sp-d16  --specs=nano.specs -mthumb -Wall -Werror -g -o CMakeFiles\\STM32F407VGT6.dir\\Drivers\\Src\\stm32f407xx_gpio_driver.c.obj -c \"D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Drivers\\Src\\stm32f407xx_gpio_driver.c\"",
+  "file": "D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Drivers\\Src\\stm32f407xx_gpio_driver.c",
+  "output": "CMakeFiles\\STM32F407VGT6.dir\\Drivers\\Src\\stm32f407xx_gpio_driver.c.obj"
+},
+{
+  "directory": "D:/Documents/MCU DRIVER/STM32F407VGT6/Debug",
+  "command": "C:\\Users\\Admin\\AppData\\Local\\stm32cube\\bundles\\gnu-tools-for-stm32\\13.3.1+st.9\\bin\\arm-none-eabi-gcc.exe -I\"D:/Documents/MCU DRIVER/STM32F407VGT6/Drivers/Inc\" -mcpu=Cortex-M4 -std=gnu11 -mfpu=fpv4-sp-d16  --specs=nano.specs -mthumb -Wall -Werror -g -o CMakeFiles\\STM32F407VGT6.dir\\Sources\\001led_toggle.c.obj -c \"D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Sources\\001led_toggle.c\"",
+  "file": "D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Sources\\001led_toggle.c",
+  "output": "CMakeFiles\\STM32F407VGT6.dir\\Sources\\001led_toggle.c.obj"
+},
+{
+  "directory": "D:/Documents/MCU DRIVER/STM32F407VGT6/Debug",
+  "command": "C:\\Users\\Admin\\AppData\\Local\\stm32cube\\bundles\\gnu-tools-for-stm32\\13.3.1+st.9\\bin\\arm-none-eabi-gcc.exe -I\"D:/Documents/MCU DRIVER/STM32F407VGT6/Drivers/Inc\" -mcpu=Cortex-M4 -std=gnu11 -mfpu=fpv4-sp-d16  --specs=nano.specs -mthumb -Wall -Werror -g -o CMakeFiles\\STM32F407VGT6.dir\\Sources\\syscalls.c.obj -c \"D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Sources\\syscalls.c\"",
+  "file": "D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Sources\\syscalls.c",
+  "output": "CMakeFiles\\STM32F407VGT6.dir\\Sources\\syscalls.c.obj"
+},
+{
+  "directory": "D:/Documents/MCU DRIVER/STM32F407VGT6/Debug",
+  "command": "C:\\Users\\Admin\\AppData\\Local\\stm32cube\\bundles\\gnu-tools-for-stm32\\13.3.1+st.9\\bin\\arm-none-eabi-gcc.exe -I\"D:/Documents/MCU DRIVER/STM32F407VGT6/Drivers/Inc\" -mcpu=Cortex-M4 -std=gnu11 -mfpu=fpv4-sp-d16  --specs=nano.specs -mthumb -Wall -Werror -g -o CMakeFiles\\STM32F407VGT6.dir\\Sources\\sysmem.c.obj -c \"D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Sources\\sysmem.c\"",
+  "file": "D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Sources\\sysmem.c",
+  "output": "CMakeFiles\\STM32F407VGT6.dir\\Sources\\sysmem.c.obj"
+}
+]
