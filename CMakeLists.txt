@@ -50,10 +50,10 @@ set (PROJECT_SOURCES
 	# LIST SOURCE FILES HERE
 	Startup/startup_stm32f407vgtx.s
     Drivers/Src/stm32f407xx_gpio_driver.c
-	Sources/001led_toggle.c	Sources/syscalls.c
+	# Sources/001led_toggle.c	
+    Sources/002led_button.c
+    Sources/syscalls.c
 	Sources/sysmem.c
-
-
 	)
 
 set (PROJECT_DEFINES

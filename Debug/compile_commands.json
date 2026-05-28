@@ -13,9 +13,9 @@
 },
 {
   "directory": "D:/Documents/MCU DRIVER/STM32F407VGT6/Debug",
-  "command": "C:\\Users\\Admin\\AppData\\Local\\stm32cube\\bundles\\gnu-tools-for-stm32\\13.3.1+st.9\\bin\\arm-none-eabi-gcc.exe -I\"D:/Documents/MCU DRIVER/STM32F407VGT6/Drivers/Inc\" -mcpu=Cortex-M4 -std=gnu11 -mfpu=fpv4-sp-d16  --specs=nano.specs -mthumb -Wall -Werror -g -o CMakeFiles\\STM32F407VGT6.dir\\Sources\\001led_toggle.c.obj -c \"D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Sources\\001led_toggle.c\"",
-  "file": "D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Sources\\001led_toggle.c",
-  "output": "CMakeFiles\\STM32F407VGT6.dir\\Sources\\001led_toggle.c.obj"
+  "command": "C:\\Users\\Admin\\AppData\\Local\\stm32cube\\bundles\\gnu-tools-for-stm32\\13.3.1+st.9\\bin\\arm-none-eabi-gcc.exe -I\"D:/Documents/MCU DRIVER/STM32F407VGT6/Drivers/Inc\" -mcpu=Cortex-M4 -std=gnu11 -mfpu=fpv4-sp-d16  --specs=nano.specs -mthumb -Wall -Werror -g -o CMakeFiles\\STM32F407VGT6.dir\\Sources\\002led_button.c.obj -c \"D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Sources\\002led_button.c\"",
+  "file": "D:\\Documents\\MCU DRIVER\\STM32F407VGT6\\Sources\\002led_button.c",
+  "output": "CMakeFiles\\STM32F407VGT6.dir\\Sources\\002led_button.c.obj"
 },
 {
   "directory": "D:/Documents/MCU DRIVER/STM32F407VGT6/Debug",

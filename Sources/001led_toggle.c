@@ -11,7 +11,7 @@ int main(void)
     gpioled.GPIO_PinConfig.GPIO_PinNumber      = GPIO_PIN_NO_12;
     gpioled.GPIO_PinConfig.GPIO_PinMode        = GPIO_MODE_OUT;
     gpioled.GPIO_PinConfig.GPIO_PinSpeed       = GPIO_SPEED_FAST;
-    gpioled.GPIO_PinConfig.GPIO_PinOType       = GPIO_OP_TYPE_PP;
+    gpioled.GPIO_PinConfig.GPIO_PinOType       = GPIO_OP_TYPE_OD;
     gpioled.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
     GPIO_PCLKControl(GPIOD, ENABLE);
     GPIO_Init(&gpioled);
