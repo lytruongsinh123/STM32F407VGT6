@@ -51,7 +51,8 @@ set (PROJECT_SOURCES
 	Startup/startup_stm32f407vgtx.s
     Drivers/Src/stm32f407xx_gpio_driver.c
 	# Sources/001led_toggle.c	
-    Sources/002led_button.c
+    # Sources/002led_button.c
+    Sources/003led_button_ext.c
     Sources/syscalls.c
 	Sources/sysmem.c
 	)
