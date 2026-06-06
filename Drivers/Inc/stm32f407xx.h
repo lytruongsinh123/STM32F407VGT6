@@ -57,11 +57,11 @@
 /*
  * Base address of peripheral which are hanging on APB2 Bus
  */
-#define EXTI_BASE   (APB2PERIPH_BASE + 0x3C00)
-#define SPI1_BASE   (APB2PERIPH_BASE + 0x3000)
-#define SYSCFG_BASE (APB2PERIPH_BASE + 0x3800)
-#define USART1_BASE (APB2PERIPH_BASE + 0x1000)
-#define USART6_BASE (APB2PERIPH_BASE + 0x1400)
+#define EXTI_BASEADDR   (APB2PERIPH_BASE + 0x3C00)
+#define SPI1_BASEADDR   (APB2PERIPH_BASE + 0x3000)
+#define SYSCFG_BASEADDR (APB2PERIPH_BASE + 0x3800)
+#define USART1_BASEADDR (APB2PERIPH_BASE + 0x1000)
+#define USART6_BASEADDR (APB2PERIPH_BASE + 0x1400)
 
 /*************************** peripheral register definition structures ***************************/
 /*
@@ -119,6 +119,31 @@ typedef struct
 
 } RCC_RegDef_t;
 /*
+ * Peripheral register definition structure for EXTI
+ */
+typedef struct
+{
+    __vo uint32_t IMR;
+    __vo uint32_t EMR;
+    __vo uint32_t RTSR;
+    __vo uint32_t FTSR;
+    __vo uint32_t SWIER;
+    __vo uint32_t PR;
+} EXTI_RegDef_t;
+/*
+ * Peripheral register definition structure for SYSCFG
+ */
+typedef struct
+{
+    __vo uint32_t MEMRPM;
+    __vo uint32_t PMC;
+    __vo uint32_t EXTICR[4];
+    uint32_t      RESERVED1[2];
+    __vo uint32_t CMPCR;
+    uint32_t      RESERVED2[2];
+    __vo uint32_t CFGR;
+} SYSCFG_RegDef_t;
+/*
  * Peripheral definition typecasted to xxx_RegDef_t
  */
 #define GPIOA ((GPIO_RegDef_t*)GPIOA_BASEADDR)
@@ -132,6 +157,7 @@ typedef struct
 #define GPIOI ((GPIO_RegDef_t*)GPIOI_BASEADDR)
 #define RCC   ((RCC_RegDef_t*)RCC_BASEADDR)
 
+#define EXTI ((EXTI_RegDef_t*)EXTI_BASEADDR)
 /*
  * Clock Enable Macros for GPIOx Pheripheral
  */
@@ -147,15 +173,60 @@ typedef struct
 /*
  * Macros reset GPIOx peripheral
  */
-#define GPIOA_REG_RESET() do { (RCC->AHB1RSTR |= (1 << 0)); (RCC->AHB1RSTR &= ~(1 << 0));} while (0)
-#define GPIOB_REG_RESET() do { (RCC->AHB1RSTR |= (1 << 1)); (RCC->AHB1RSTR &= ~(1 << 1));} while (0)
-#define GPIOC_REG_RESET() do { (RCC->AHB1RSTR |= (1 << 2)); (RCC->AHB1RSTR &= ~(1 << 2));} while (0)
-#define GPIOD_REG_RESET() do { (RCC->AHB1RSTR |= (1 << 3)); (RCC->AHB1RSTR &= ~(1 << 3));} while (0)
-#define GPIOE_REG_RESET() do { (RCC->AHB1RSTR |= (1 << 4)); (RCC->AHB1RSTR &= ~(1 << 4));} while (0)
-#define GPIOF_REG_RESET() do { (RCC->AHB1RSTR |= (1 << 5)); (RCC->AHB1RSTR &= ~(1 << 5));} while (0)
-#define GPIOG_REG_RESET() do { (RCC->AHB1RSTR |= (1 << 6)); (RCC->AHB1RSTR &= ~(1 << 6));} while (0)
-#define GPIOH_REG_RESET() do { (RCC->AHB1RSTR |= (1 << 7)); (RCC->AHB1RSTR &= ~(1 << 7));} while (0)
-#define GPIOI_REG_RESET() do { (RCC->AHB1RSTR |= (1 << 8)); (RCC->AHB1RSTR &= ~(1 << 8));} while (0)
+#define GPIOA_REG_RESET()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \
+    do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+        (RCC->AHB1RSTR |= (1 << 0));                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
+        (RCC->AHB1RSTR &= ~(1 << 0));                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+    } while (0)
+#define GPIOB_REG_RESET()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \
+    do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+        (RCC->AHB1RSTR |= (1 << 1));                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
+        (RCC->AHB1RSTR &= ~(1 << 1));                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+    } while (0)
+#define GPIOC_REG_RESET()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \
+    do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+        (RCC->AHB1RSTR |= (1 << 2));                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
+        (RCC->AHB1RSTR &= ~(1 << 2));                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+    } while (0)
+#define GPIOD_REG_RESET()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \
+    do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+        (RCC->AHB1RSTR |= (1 << 3));                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
+        (RCC->AHB1RSTR &= ~(1 << 3));                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+    } while (0)
+#define GPIOE_REG_RESET()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \
+    do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+        (RCC->AHB1RSTR |= (1 << 4));                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
+        (RCC->AHB1RSTR &= ~(1 << 4));                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+    } while (0)
+#define GPIOF_REG_RESET()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \
+    do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+        (RCC->AHB1RSTR |= (1 << 5));                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
+        (RCC->AHB1RSTR &= ~(1 << 5));                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+    } while (0)
+#define GPIOG_REG_RESET()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \
+    do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+        (RCC->AHB1RSTR |= (1 << 6));                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
+        (RCC->AHB1RSTR &= ~(1 << 6));                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+    } while (0)
+#define GPIOH_REG_RESET()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \
+    do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+        (RCC->AHB1RSTR |= (1 << 7));                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
+        (RCC->AHB1RSTR &= ~(1 << 7));                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+    } while (0)
+#define GPIOI_REG_RESET()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          \
+    do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             \
+    {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+        (RCC->AHB1RSTR |= (1 << 8));                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \
+        (RCC->AHB1RSTR &= ~(1 << 8));                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \
+    } while (0)
 
 /*
  * Clock Enable Macros for I2Cx Pheripheral
@@ -169,7 +240,10 @@ typedef struct
 /*
  * Clock Enable Macros for USARTx Pheripheral
  */
-
+/*
+ * Clock Enable Macros for SYSCFG Pheripheral
+ */
+#define SYSCFG_PCLK_EN() (RCC->APB2ENR |= (1 << 14))
 /*
  * Clock Disable Macros for GPIOx Pheripheral
  */
