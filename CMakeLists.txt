@@ -53,7 +53,8 @@ set (PROJECT_SOURCES
 	# Sources/001led_toggle.c	
     # Sources/002led_button.c
     # Sources/003led_button_ext.c
-    Sources/main.c
+    # Sources/004gpio_freg.c
+    Sources/005button_interrupt.c
     Sources/syscalls.c
 	Sources/sysmem.c
 	)
@@ -88,6 +89,6 @@ include_directories (${PROJECT_INCLUDES})
 
 set (CMAKE_EXECUTABLE_SUFFIX ".elf")
 set (CMAKE_STATIC_LIBRARY_SUFFIX ".a")
-set (CMAKE_C_FLAGS "${MCPU} -std=gnu11 ${MFPU} ${MFLOAT_ABI} ${RUNTIME_LIBRARY} -mthumb -Wall -Werror")
+set (CMAKE_C_FLAGS "${MCPU} -std=gnu11 ${MFPU} ${MFLOAT_ABI} ${RUNTIME_LIBRARY} -mthumb -Wall -Wextra")
 set (CMAKE_EXE_LINKER_FLAGS "-T${LINKER_SCRIPT} ${RUNTIME_LIBRARY_SYSCALLS} -Wl,-Map=test.map -Wl,--gc-sections -static -Wl,--start-group -lc -lm -Wl,--end-group")
 set (CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} -x assembler-with-cpp")

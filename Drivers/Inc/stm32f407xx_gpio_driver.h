@@ -107,6 +107,6 @@ void     GPIO_ToggleOutputPin(GPIO_RegDef_t* pGIOx, uint8_t PinNumber);
  * IRQ Configuration and ISR handling
  */
 void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
-void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority);
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority);
 void GPIO_IRQHandling(uint8_t PinNumber);
 #endif /* DRIVERS_INC_STM32F407XX_GPIO_DRIVER_H_ */
