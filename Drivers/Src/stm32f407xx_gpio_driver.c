@@ -357,7 +357,21 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t* pGIOx, uint8_t PinNumber)
 /*
  * IRQ Configuration and ISR handling
  */
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnorDi)
+/******************************************************************************
+ * @fn            GPIO_IRQInterruptConfig
+ *
+ * @brief         -
+ *
+ * @param[in]     -
+ * @param[in]     -
+ * @param[in]     -
+ *
+ * @return        -
+ *
+ * @Note          -
+ *
+ ******************************************************************************/
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi)
 {
     if (EnorDi == ENABLE)
     {
@@ -396,4 +410,33 @@ void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnorDi)
         }
     }
 }
-void GPIO_IRQHandling(uint8_t PinNumber) {}
+/******************************************************************************
+ * @fn            GPIO_IRQPriorityConfig
+ *
+ * @brief         -
+ *
+ * @param[in]     -
+ * @param[in]     -
+ * @param[in]     -
+ *
+ * @return        -
+ *
+ * @Note          -
+ *
+ ******************************************************************************/
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
+{
+    // 1. Find out the IPRx register and PRI_x section in IPRx
+    uint8_t iprx         = IRQNumber / 4;
+    uint8_t iprx_section = IRQNumber % 4;
+    uint8_t shift_amount = (8 * iprx_section) + (8 - NO_PR_BITS_IMPLEMENTED);
+    *(NVIC_PR_BASE_ADDR + (iprx * 4)) |= IRQPriority << shift_amount;
+}
+void GPIO_IRQHandling(uint8_t PinNumber)
+{
+    // Clear the EXTI PR (Pending Reg) corresponding to the Pin number
+    if (EXTI->PR & (1 << PinNumber))
+    {
+        EXTI->PR |= (1 << PinNumber);
+    }
+}

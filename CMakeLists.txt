@@ -52,7 +52,8 @@ set (PROJECT_SOURCES
     Drivers/Src/stm32f407xx_gpio_driver.c
 	# Sources/001led_toggle.c	
     # Sources/002led_button.c
-    Sources/003led_button_ext.c
+    # Sources/003led_button_ext.c
+    Sources/main.c
     Sources/syscalls.c
 	Sources/sysmem.c
 	)
