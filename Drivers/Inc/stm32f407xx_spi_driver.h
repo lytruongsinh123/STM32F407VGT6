@@ -26,6 +26,36 @@ typedef struct
 typedef struct
 {
     SPI_RegDef_t* pSPIx;
-    SPI_Config_t SPIConfig;
-}SPI_Handle_t;
+    SPI_Config_t  SPIConfig;
+} SPI_Handle_t;
+
+/********************************************************************************************
+ *                               APIs supported by this driver
+ *             For more information about the APIs check the function definitions
+ ********************************************************************************************/
+
+/*
+ * Peripheral Clock Setup
+ */
+void SPI_PCLKControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
+
+/*
+ * Init and Deinit
+ */
+void SPI_Init(SPI_Handle_t* pSPIHandle);
+void SPI_DeInit(SPI_RegDef_t* pSPIx);
+/*
+ * Data Send and Receive
+ */
+void SPI_TransmitData(SPI_RegDef_t* pSPIx, uint8_t* pTxBuffer, uint32_t len);
+void SPI_ReceiveData(SPI_RegDef_t* pSPIx, uint8_t* pRxBuffer, uint32_t len);
+/*
+ * IRQ Configuration and ISR handling
+ */
+void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi);
+void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority);
+void SPI_IRQHandling(SPI_Handle_t* pSPIHandle);
+/*
+ * Other Peripheral Control APIs
+ */
 #endif /* DRIVERS_INC_STM32F407XX_SPI_DRIVER_H_ */
