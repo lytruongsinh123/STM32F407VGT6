@@ -8,6 +8,8 @@
 #ifndef DRIVERS_INC_STM32F407XX_H_
 #define DRIVERS_INC_STM32F407XX_H_
 #include <stdint.h>
+#include "stm32f407xx_gpio_driver.h"
+#include "stm32f407xx_spi_driver.h"
 #define __vo volatile
 /*
  * ARM Cortex M4 Processor NVIC ISERx register Address
@@ -294,6 +296,10 @@ typedef struct
 /*
  * Clock Disable Macros for SPIx Pheripheral
  */
+#define SPI1_PCLK_DI() (RCC->APB2ENR &= ~(1 << 12))
+#define SPI2_PCLK_DI() (RCC->APB1ENR &= ~(1 << 14))
+#define SPI3_PCLK_DI() (RCC->APB1ENR &= ~(1 << 15))
+#define SPI4_PCLK_DI() (RCC->APB2ENR &= ~(1 << 13))
 /*
  * Clock Disable Macros for USARTx Pheripheral
  */
