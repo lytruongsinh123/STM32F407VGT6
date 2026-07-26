@@ -81,13 +81,49 @@ void SPI_PCLKControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
  * @return              - None
  *
  * @Note                - This function enables and configures:
- *                        1.
- *                        2.
- *                        3.
- *                        4.
- *                        5.
+ *                        1. Configure the device mode
+ *                        2. Configure the bus
+ *                        3. Configure the SPI Serial Clock Speed
+ *                        4. Configure the DFF
+ *                        5. Configure the CPOL
+ *                        6. Configure the CPHA
  */
-void SPI_Init(SPI_Handle_t* pSPIHandle) {}
+void SPI_Init(SPI_Handle_t* pSPIHandle)
+{
+    // First lets configure the SPI_CR1 register
+    uint32_t tempreg = 0;
+
+    // 1. Configure the Device Mode
+    tempreg |= pSPIHandle->SPIConfig.SPI_DeviceMode << SPI_CR1_MSTR;
+    // 2. Configure the Bus
+    if (pSPIHandle->SPIConfig.SPI_BusConfig == SPI_BUS_CONFIG_FULL_DUPLEX)
+    {
+        // BIDIMODE should be cleared
+        tempreg &= ~(1 << SPI_CR1_BIDIMODE);
+    }
+    else if (pSPIHandle->SPIConfig.SPI_BusConfig == SPI_BUS_CONFIG_HALF_DUPLEX)
+    {
+        // BIDIMODE should be set
+        tempreg |= (1 << SPI_CR1_BIDIMODE);
+    }
+    else if (pSPIHandle->SPIConfig.SPI_BusConfig == SPI_BUS_CONFIG_SIMPLEX_RXONLY)
+    {
+        // BIDIMODE should be cleared
+        tempreg &= ~(1 << SPI_CR1_BIDIMODE);
+        // RXONLY must be set
+        tempreg |= (1 << SPI_CR1_RXONLY);
+    }
+    // 3. Configure the SPI Serial Clock Speed
+    tempreg |= pSPIHandle->SPIConfig.SPI_SclkSpeed << SPI_CR1_BR;
+    // 4. Configure the DFF
+    tempreg |= pSPIHandle->SPIConfig.SPI_DFF << SPI_CR1_DFF;
+    // 5. Configure the CPOL
+    tempreg |= pSPIHandle->SPIConfig.SPI_CPOL << SPI_CR1_CPOL;
+    // 6. Configure the CPHA
+    tempreg |= pSPIHandle->SPIConfig.SPI_CPHA << SPI_CR1_CPHA;
+
+    pSPIHandle->pSPIx->CR1 = tempreg
+}
 /****************************************************************************
  * @fn                  - SPI_DeInit
  *

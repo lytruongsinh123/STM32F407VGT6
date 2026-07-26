@@ -8,6 +8,55 @@
 #define DRIVERS_INC_STM32F407XX_SPI_DRIVER_H_
 #include "stm32f407xx.h"
 /*
+ * @SPI_DeviceMode
+ * SPI Device Mode
+ */
+#define SPI_DEVICE_MODE_MASTER 1
+#define SPI_DEVICE_MODE_SLAVE  0
+/*
+ * @SPI_BusConfig
+ * SPI Bus Config
+ */
+#define SPI_BUS_CONFIG_FULL_DUPLEX    1
+#define SPI_BUS_CONFIG_HALF_DUPLEX    2
+#define SPI_BUS_CONFIG_SIMPLEX_RXONLY 3
+/*
+ * @SPI_SclkSpeed
+ * SPI Clock Speed
+ */
+#define SPI_SCLK_SPEED_DIVIDE_2   0
+#define SPI_SCLK_SPEED_DIVIDE_4   1
+#define SPI_SCLK_SPEED_DIVIDE_8   2
+#define SPI_SCLK_SPEED_DIVIDE_16  3
+#define SPI_SCLK_SPEED_DIVIDE_32  4
+#define SPI_SCLK_SPEED_DIVIDE_64  5
+#define SPI_SCLK_SPEED_DIVIDE_128 6
+#define SPI_SCLK_SPEED_DIVIDE_256 7
+/*
+ * @SPI_DFF
+ * SPI Data Frame Format
+ */
+#define SPI_DFF_8BITS  0
+#define SPI_DFF_16BITS 1
+/*
+ * @SPI_CPOL
+ * SPI Clock Polarity
+ */
+#define SPI_CPOL_LOW  0
+#define SPI_CPOL_HIGH 1
+/*
+ * @SPI_CPHA
+ * SPI Clock Phase
+ */
+#define SPI_CPHA_LOW  0
+#define SPI_CPHA_HIGH 1
+/*
+ * @SPI_SSM
+ * SPI Software Slave Management
+ */
+#define SPI_SSM_DI 0
+#define SPI_SSM_EN 1
+/*
  * Configuration structure for SPIx peripheral
  */
 typedef struct
