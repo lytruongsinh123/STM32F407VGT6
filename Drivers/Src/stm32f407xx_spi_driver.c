@@ -159,23 +159,58 @@ void SPI_DeInit(SPI_RegDef_t* pSPIx)
         SPI4_REG_RESET();
     }
 }
+uint8_t SPI_GetFlagStatus(SPI_RegDef_t* pSPIx, uint32_t FlagName)
+{
+    if (pSPIx->SR & (FlagName))
+    {
+        return FLAG_SET;
+    }
+    return FLAG_RESET;
+}
 /*
  * Data Send and Receive
  */
 /****************************************************************************
- * @fn                  - GPIO_ReadFromInputPin
+ * @fn                  - SPI_TransmitData
  *
- * @brief               - Reads the logic level from the selected GPIO input pin.
+ * @brief               -
  *
- * @param[in]           - pGPIOx     : Pointer to GPIO peripheral base address
- * @param[in]           - PinNumber : GPIO pin number to read
+ * @param[in]           -
+ * @param[in]           -
  *
- * @return              - uint8_t : Returns 0 or 1 depending on pin state
+ * @return              -
  *
- * @Note                - Reads the corresponding bit from the IDR
- *                        (Input Data Register).
+ * @Note                - This is blocking call
+ *
  */
-
+void SPI_TransmitData(SPI_RegDef_t* pSPIx, uint8_t* pTxBuffer, uint32_t len)
+{
+    while (len > 0)
+    {
+        // 1. Wait until TXE is set
+        while (SPI_GetFlagStatus(pSPIx, SPI_TXE_FLAG) == FLAG_RESET)
+            ;
+        // 2. Check the DFF bit in CR1
+        if (pSPIx->CR1 & (1 << SPI_CR1_DFF))
+        {
+            // 16 bit DFF
+            // 1. Load the data in to the DR
+            pSPIx->DR = *((uint16_t*)pTxBuffer);
+            // 2. Update the remaining data length (2 bytes transmitted)
+            len--;
+            len--;
+            // 3. Move the transmit buffer pointer to the next 2 bytes
+            (uint16_t*)pTxBuffer++;
+        }
+        else
+        {
+            // 8 bit DFF
+            pSPIx->DR = *pTxBuffer;
+            len--;
+            pTxBuffer++;
+        }
+    }
+}
 /****************************************************************************
  * @fn                  - GPIO_ReadFromInputPort
  *

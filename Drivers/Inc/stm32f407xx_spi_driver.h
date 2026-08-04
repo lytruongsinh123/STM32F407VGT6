@@ -57,6 +57,12 @@
 #define SPI_SSM_DI 0
 #define SPI_SSM_EN 1
 /*
+ * SPI related status flags definitions
+ */
+#define SPI_TXE_FLAG  (1 << SPI_SR_TXE)
+#define SPI_RXNE_FLAG (1 << SPI_SR_RXNE)
+#define SPI_BUSY_FLAG (1 << SPI_SR_BSY)
+/*
  * Configuration structure for SPIx peripheral
  */
 typedef struct
@@ -91,8 +97,9 @@ void SPI_PCLKControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
 /*
  * Init and Deinit
  */
-void SPI_Init(SPI_Handle_t* pSPIHandle);
-void SPI_DeInit(SPI_RegDef_t* pSPIx);
+void    SPI_Init(SPI_Handle_t* pSPIHandle);
+void    SPI_DeInit(SPI_RegDef_t* pSPIx);
+uint8_t SPI_GetFlagStatus(SPI_RegDef_t* pSPIx, uint32_t FlagName);
 /*
  * Data Send and Receive
  */

@@ -55,7 +55,8 @@ set (PROJECT_SOURCES
     # Sources/002led_button.c
     # Sources/003led_button_ext.c
     # Sources/004gpio_freg.c
-    Sources/005button_interrupt.c
+    # Sources/005button_interrupt.c
+    Sources/006spi_tx_testing.c
     Sources/syscalls.c
 	Sources/sysmem.c
 	)
