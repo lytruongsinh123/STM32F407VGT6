@@ -9,7 +9,7 @@
 #define DRIVERS_INC_STM32F407XX_H_
 
 #include <stdint.h>
-
+#include <string.h>
 #define __vo volatile
 /*
  * ARM Cortex M4 Processor NVIC ISERx register Address
