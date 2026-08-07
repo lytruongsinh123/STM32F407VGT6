@@ -39,7 +39,7 @@ void SPI2_Inits(void)
 {
     SPI_Handle_t SPI2handle;
     SPI2handle.pSPIx                    = SPI2;
-    SPI2handle.SPIConfig.SPI_BusConfig  = SPI_BUS_CONFIG_HALF_DUPLEX;
+    SPI2handle.SPIConfig.SPI_BusConfig  = SPI_BUS_CONFIG_FULL_DUPLEX;
     SPI2handle.SPIConfig.SPI_DeviceMode = SPI_DEVICE_MODE_MASTER;
     SPI2handle.SPIConfig.SPI_SclkSpeed  = SPI_SCLK_SPEED_DIVIDE_2;
     SPI2handle.SPIConfig.SPI_DFF        = SPI_DFF_8BITS;

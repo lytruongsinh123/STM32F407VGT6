@@ -87,6 +87,7 @@ void SPI_PCLKControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
  *                        4. Configure the DFF
  *                        5. Configure the CPOL
  *                        6. Configure the CPHA
+ *                        7. Configure the SSM
  */
 void SPI_Init(SPI_Handle_t* pSPIHandle)
 {
@@ -123,6 +124,8 @@ void SPI_Init(SPI_Handle_t* pSPIHandle)
     tempreg |= pSPIHandle->SPIConfig.SPI_CPOL << SPI_CR1_CPOL;
     // 6. Configure the CPHA
     tempreg |= pSPIHandle->SPIConfig.SPI_CPHA << SPI_CR1_CPHA;
+    // 7. Configure the SSM
+    tempreg |= pSPIHandle->SPIConfig.SPI_SSM << SPI_CR1_SSM;
 
     pSPIHandle->pSPIx->CR1 = tempreg;
 }
