@@ -55,8 +55,13 @@ int main(void)
     char user_data[] = "Hello world";
     // Function is used to initialize the GPIO pins to behave as SPI2 pins
     SPI2_GPIOInits();
+    // Function is used to initialize the SPI2 peripheral parameters
     SPI2_Inits();
+    // Enable the SPI peripheral
+    SPI_PeripheralControl(SPI2, ENABLE);
+    // Function is used to send data
     SPI_TransmitData(SPI2, (uint8_t*)user_data, strlen(user_data));
-    while(1);
+    while (1)
+        ;
     return 0;
 }

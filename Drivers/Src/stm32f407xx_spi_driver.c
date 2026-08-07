@@ -213,145 +213,28 @@ void SPI_TransmitData(SPI_RegDef_t* pSPIx, uint8_t* pTxBuffer, uint32_t len)
         }
     }
 }
-/****************************************************************************
- * @fn                  - GPIO_ReadFromInputPort
- *
- * @brief               - Reads the current value of the GPIO input port.
- *
- * @param[in]           - pGPIOx : Pointer to GPIO peripheral base address
- *
- * @return              - uint16_t : Value of the GPIO input data register (IDR)
- *
- * @Note                - This function returns the logic states of all GPIO
- *                        pins in the selected port.
- */
 
 /****************************************************************************
- * @fn                  - GPIO_WriteToOutputPin
+ * @fn                  - SPI_PeripheralControl
  *
- * @brief               - Writes a logic value to the selected GPIO output pin.
+ * @brief               -
  *
- * @param[in]           - pGPIOx     : Pointer to GPIO peripheral base address
- * @param[in]           - PinNumber : GPIO pin number to write
- * @param[in]           - value     : Value to be written (GPIO_PIN_SET or GPIO_PIN_RESET)
+ * @param[in]           -
+ * @param[in]           -
  *
- * @return              - None
+ * @return              -
  *
- * @Note                - This function sets or clears the corresponding bit
- *                        in the ODR (Output Data Register).
+ * @Note                - Enable SPI2
+ *
  */
-
-/****************************************************************************
- * @fn                  - GPIO_WriteToOutputPort
- *
- * @brief               - Writes a value to the GPIO output port.
- *
- * @param[in]           - pGPIOx : Pointer to GPIO peripheral base address
- * @param[in]           - value  : 16-bit value to be written to the output port
- *
- * @return              - None
- *
- * @Note                - This function updates the entire ODR
- *                        (Output Data Register) at once.
- */
-
-/****************************************************************************
- * @fn                  - GPIO_ToggleOutputPin
- *
- * @brief               - Toggles the logic state of the selected GPIO output pin.
- *
- * @param[in]           - pGPIOx     : Pointer to GPIO peripheral base address
- * @param[in]           - PinNumber : GPIO pin number to toggle
- *
- * @return              - None
- *
- * @Note                - The corresponding bit in the ODR register is
- *                        inverted using XOR operation.
- */
-
-/*
- * IRQ Configuration and ISR handling
- */
-/******************************************************************************
- * @fn            GPIO_IRQInterruptConfig
- *
- * @brief         -
- *
- * @param[in]     -
- * @param[in]     -
- * @param[in]     -
- *
- * @return        -
- *
- * @Note          -
- *
- ******************************************************************************/
-// void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi)
-// {
-//     if (EnorDi == ENABLE)
-//     {
-//         // NVIC_ISER0 register
-//         if (IRQNumber <= 31)
-//         {
-//             *NVIC_ISER0 |= (1 << IRQNumber);
-//         }
-//         // NVIC_ISER1 register
-//         else if (IRQNumber > 31 && IRQNumber < 64)
-//         {
-//             *NVIC_ISER1 |= (1 << (IRQNumber % 32));
-//         }
-//         // NVIC_ISER2 register
-//         else if (IRQNumber >= 64 && IRQNumber < 96)
-//         {
-//             *NVIC_ISER2 |= (1 << (IRQNumber % 64));
-//         }
-//     }
-//     else
-//     {
-//         // NVIC_ICER0 register
-//         if (IRQNumber <= 31)
-//         {
-//             *NVIC_ICER0 |= (1 << IRQNumber);
-//         }
-//         // NVIC_ICER1 register
-//         else if (IRQNumber > 31 && IRQNumber < 64)
-//         {
-//             *NVIC_ICER1 |= (1 << (IRQNumber % 32));
-//         }
-//         // NVIC_ICER2 register
-//         else if (IRQNumber >= 64 && IRQNumber < 96)
-//         {
-//             *NVIC_ICER2 |= (1 << (IRQNumber % 64));
-//         }
-//     }
-// }
-/******************************************************************************
- * @fn            GPIO_IRQPriorityConfig
- *
- * @brief         -
- *
- * @param[in]     -
- * @param[in]     -
- * @param[in]     -
- *
- * @return        -
- *
- * @Note          -
- *
- ******************************************************************************/
-// void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority)
-// {
-//     // 1. Find out the IPRx register and PRI_x section in IPRx
-//     uint8_t iprx         = IRQNumber / 4;
-//     uint8_t iprx_section = IRQNumber % 4;
-//     uint8_t shift_amount = (8 * iprx_section) + (8 - NO_PR_BITS_IMPLEMENTED);
-//     *(NVIC_PR_BASE_ADDR + iprx) |= IRQPriority << shift_amount;
-// }
-// void GPIO_IRQHandling(uint8_t PinNumber)
-// {
-//     // Clear the EXTI PR (Pending Reg) corresponding to the Pin number
-//     if (EXTI->PR & (1 << PinNumber))
-//     {
-//         EXTI->PR |= (1 << PinNumber);
-//     }
-// }
+void SPI_PeripheralControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
+{
+    if (EnorDi == ENABLE)
+    {
+        pSPIx->CR1 |= (1 << SPI_CR1_SPE);
+    }
+    else
+    {
+        pSPIx->CR1 &= ~(1 << SPI_CR1_SPE);
+    }
+}
