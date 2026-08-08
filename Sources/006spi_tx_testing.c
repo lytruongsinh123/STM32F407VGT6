@@ -27,13 +27,13 @@ void SPI2_GPIOInits(void)
     SPI2Pins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_15;
     GPIO_Init(&SPI2Pins);
 
-    // MISO
-    SPI2Pins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_14;
-    GPIO_Init(&SPI2Pins);
-
-    // NSS
-    SPI2Pins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_12;
-    GPIO_Init(&SPI2Pins);
+//    // MISO
+//    SPI2Pins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_14;
+//    GPIO_Init(&SPI2Pins);
+//
+//    // NSS
+//    SPI2Pins.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_12;
+//    GPIO_Init(&SPI2Pins);
 }
 void SPI2_Inits(void)
 {
@@ -57,11 +57,14 @@ int main(void)
     SPI2_GPIOInits();
     // Function is used to initialize the SPI2 peripheral parameters
     SPI2_Inits();
+    // This make NSS signal internally high and avoid MODF error
+    SPI_SSIConfig(SPI2, ENABLE);
     // Enable the SPI peripheral
     SPI_PeripheralControl(SPI2, ENABLE);
     // Function is used to send data
-    SPI_TransmitData(SPI2, (uint8_t*)user_data, strlen(user_data));
+
     while (1)
+    	SPI_TransmitData(SPI2, (uint8_t*)user_data, strlen(user_data));
         ;
     return 0;
 }
