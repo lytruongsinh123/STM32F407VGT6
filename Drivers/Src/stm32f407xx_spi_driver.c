@@ -217,7 +217,34 @@ void SPI_TransmitData(SPI_RegDef_t* pSPIx, uint8_t* pTxBuffer, uint32_t len)
         }
     }
 }
-
+void SPI_ReceiveData(SPI_RegDef_t* pSPIx, uint8_t* pRxBuffer, uint32_t len)
+{
+    while (len > 0)
+    {
+        // 1. Wait until RXNE is set
+        while (SPI_GetFlagStatus(pSPIx, SPI_RXNE_FLAG) == FLAG_RESET)
+            ;
+        // 2. Check the DFF bit in CR1
+        if ((pSPIx->CR1 & (1 << SPI_CR1_DFF)))
+        {
+            // 16 bit DFF
+            // 1. Load the data from DR to pRxBuffer
+            *((uint16_t*)pRxBuffer) = pSPIx->DR;
+            // 2. Update the remaining data length (2 bytes transmitted)
+            len--;
+            len--;
+            // 3. Move the transmit buffer pointer to the next 2 bytes
+            (uint16_t*)pRxBuffer++;
+        }
+        else
+        {
+            // 8 bit DFF
+            *(pRxBuffer) = pSPIx->DR;
+            len--;
+            pRxBuffer++;
+        }
+    }
+}
 /****************************************************************************
  * @fn                  - SPI_PeripheralControl
  *
@@ -252,7 +279,7 @@ void SPI_PeripheralControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
  *
  * @return              -
  *
- * @Note                - 
+ * @Note                -
  *
  */
 void SPI_SSIConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
@@ -276,7 +303,7 @@ void SPI_SSIConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
  *
  * @return              -
  *
- * @Note                - 
+ * @Note                -
  *
  */
 void SPI_SSOEConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
