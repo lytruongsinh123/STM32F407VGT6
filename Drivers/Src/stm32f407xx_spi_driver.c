@@ -91,10 +91,11 @@ void SPI_PCLKControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
  */
 void SPI_Init(SPI_Handle_t* pSPIHandle)
 {
-    // First lets configure the SPI_CR1 register
-    uint32_t tempreg = 0;
     // Enable peripheral the clock
     SPI_PCLKControl(pSPIHandle->pSPIx, ENABLE);
+
+    // First lets configure the SPI_CR1 register
+    uint32_t tempreg = 0;
 
     // 1. Configure the Device Mode
     tempreg |= pSPIHandle->SPIConfig.SPI_DeviceMode << SPI_CR1_MSTR;
@@ -241,6 +242,19 @@ void SPI_PeripheralControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
         pSPIx->CR1 &= ~(1 << SPI_CR1_SPE);
     }
 }
+/****************************************************************************
+ * @fn                  - SPI_SSIConfig
+ *
+ * @brief               -
+ *
+ * @param[in]           -
+ * @param[in]           -
+ *
+ * @return              -
+ *
+ * @Note                - 
+ *
+ */
 void SPI_SSIConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
 {
     if (EnorDi == ENABLE)
@@ -250,5 +264,29 @@ void SPI_SSIConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
     else
     {
         pSPIx->CR1 &= ~(1 << SPI_CR1_SSI);
+    }
+}
+/****************************************************************************
+ * @fn                  - SPI_SSOEConfig
+ *
+ * @brief               -
+ *
+ * @param[in]           -
+ * @param[in]           -
+ *
+ * @return              -
+ *
+ * @Note                - 
+ *
+ */
+void SPI_SSOEConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
+{
+    if (EnorDi == ENABLE)
+    {
+        pSPIx->CR2 |= (1 << SPI_CR2_SSOE);
+    }
+    else
+    {
+        pSPIx->CR2 &= ~(1 << SPI_CR2_SSOE);
     }
 }

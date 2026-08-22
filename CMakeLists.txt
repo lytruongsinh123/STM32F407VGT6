@@ -56,7 +56,8 @@ set (PROJECT_SOURCES
     # Sources/003led_button_ext.c
     # Sources/004gpio_freg.c
     # Sources/005button_interrupt.c
-    Sources/006spi_tx_testing.c
+    # Sources/006spi_tx_testing.c
+    Sources/007spi_txonly_arduino.c
     Sources/syscalls.c
 	Sources/sysmem.c
 	)

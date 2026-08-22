@@ -99,7 +99,6 @@ void SPI_PCLKControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
  */
 void    SPI_Init(SPI_Handle_t* pSPIHandle);
 void    SPI_DeInit(SPI_RegDef_t* pSPIx);
-uint8_t SPI_GetFlagStatus(SPI_RegDef_t* pSPIx, uint32_t FlagName);
 /*
  * Data Send and Receive
  */
@@ -116,5 +115,7 @@ void SPI_IRQHandling(SPI_Handle_t* pSPIHandle);
  */
 void SPI_PeripheralControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
 void SPI_SSIConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
+void SPI_SSOEConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
+uint8_t SPI_GetFlagStatus(SPI_RegDef_t* pSPIx, uint32_t FlagName);
 
 #endif /* DRIVERS_INC_STM32F407XX_SPI_DRIVER_H_ */
