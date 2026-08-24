@@ -7,9 +7,11 @@
 // ALT function mode : AF5
 //
 #include "stm32f407xx.h"
+#include <stdio.h>
 #include "stm32f407xx_gpio_driver.h"
 #include "stm32f407xx_spi_driver.h"
 
+extern void initialise_monitor_handles();
 // Command codes
 #define COMMAND_LED_CTRL    0x50
 #define COMMAND_SENSOR_READ 0x51
@@ -99,12 +101,13 @@ int main(void)
 {
     uint8_t dummy_write = 0xff;
     uint8_t dummy_read  = 0xff;
+    initialise_monitor_handles();
     GPIO_ButtonInit();
     // Function is used to initialize the GPIO pins to behave as SPI2 pins
     SPI2_GPIOInits();
     // Function is used to initialize the SPI2 peripheral parameters
     SPI2_Inits();
-
+    printf("SPI Init. done\n");
     SPI_SSOEConfig(SPI2, ENABLE);
     while (1)
     {
@@ -238,6 +241,7 @@ int main(void)
             ;
         // Disable the SPI peripheral
         SPI_PeripheralControl(SPI2, DISABLE);
+        printf("SPI Communication Closed\n");
     }
     return 0;
 }
