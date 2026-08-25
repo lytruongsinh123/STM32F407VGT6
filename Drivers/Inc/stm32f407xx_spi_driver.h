@@ -65,6 +65,13 @@
 /*
  * Configuration structure for SPIx peripheral
  */
+/*
+ * SPI application states
+ */
+#define SPI_READY      0
+#define SPI_BUSY_IN_RX 1
+#define SPI_BUSY_IN_TX 2
+
 typedef struct
 {
     uint8_t SPI_DeviceMode;
@@ -75,6 +82,20 @@ typedef struct
     uint8_t SPI_CPHA;
     uint8_t SPI_SSM;
 } SPI_Config_t;
+/*
+ *Handle structure for SPIx peripheral
+ */
+typedef struct
+{
+    SPI_RegDef_t* pSPIx; /*!< This holds the base address of SPIx(x:0,1,2) peripheral >*/
+    SPI_Config_t  SPIConfig;
+    uint8_t*      pTxBuffer; /* !< To store the app. Tx buffer address > */
+    uint8_t*      pRxBuffer; /* !< To store the app. Rx buffer address > */
+    uint32_t      TxLen;     /* !< To store Tx len > */
+    uint32_t      RxLen;     /* !< To store Tx len > */
+    uint8_t       TxState;   /* !< To store Tx state > */
+    uint8_t       RxState;   /* !< To store Rx state > */
+} SPI_Handle_t;
 /*
  * Handle structure for SPIx peripheral
  */
@@ -97,13 +118,16 @@ void SPI_PCLKControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
 /*
  * Init and Deinit
  */
-void    SPI_Init(SPI_Handle_t* pSPIHandle);
-void    SPI_DeInit(SPI_RegDef_t* pSPIx);
+void SPI_Init(SPI_Handle_t* pSPIHandle);
+void SPI_DeInit(SPI_RegDef_t* pSPIx);
 /*
  * Data Send and Receive
  */
 void SPI_TransmitData(SPI_RegDef_t* pSPIx, uint8_t* pTxBuffer, uint32_t len);
 void SPI_ReceiveData(SPI_RegDef_t* pSPIx, uint8_t* pRxBuffer, uint32_t len);
+
+void SPI_TransmitDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pTxBuffer, uint32_t len);
+void SPI_ReceiveDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pRxBuffer, uint32_t len);
 /*
  * IRQ Configuration and ISR handling
  */
@@ -113,9 +137,9 @@ void SPI_IRQHandling(SPI_Handle_t* pSPIHandle);
 /*
  * Other Peripheral Control APIs
  */
-void SPI_PeripheralControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
-void SPI_SSIConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
-void SPI_SSOEConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
+void    SPI_PeripheralControl(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
+void    SPI_SSIConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
+void    SPI_SSOEConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi);
 uint8_t SPI_GetFlagStatus(SPI_RegDef_t* pSPIx, uint32_t FlagName);
 
 #endif /* DRIVERS_INC_STM32F407XX_SPI_DRIVER_H_ */

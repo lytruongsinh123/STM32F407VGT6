@@ -246,6 +246,74 @@ void SPI_ReceiveData(SPI_RegDef_t* pSPIx, uint8_t* pRxBuffer, uint32_t len)
     }
 }
 /****************************************************************************
+ * @fn                  - SPI_IRQPriorityConfig
+ *
+ * @brief               -
+ *
+ * @param[in]           -
+ * @param[in]           -
+ *
+ * @return              -
+ *
+ * @Note                - Enable SPI2
+ *
+ */
+void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi)
+{
+        if (EnorDi == ENABLE)
+    {
+        // NVIC_ISER0 register
+        if (IRQNumber <= 31)
+        {
+            *NVIC_ISER0 |= (1 << IRQNumber);
+        }
+        // NVIC_ISER1 register
+        else if (IRQNumber > 31 && IRQNumber < 64)
+        {
+            *NVIC_ISER1 |= (1 << (IRQNumber % 32));
+        }
+        // NVIC_ISER2 register
+        else if (IRQNumber >= 64 && IRQNumber < 96)
+        {
+            *NVIC_ISER2 |= (1 << (IRQNumber % 64));
+        }
+    }
+    else
+    {
+        // NVIC_ICER0 register
+        if (IRQNumber <= 31)
+        {
+            *NVIC_ICER0 |= (1 << IRQNumber);
+        }
+        // NVIC_ICER1 register
+        else if (IRQNumber > 31 && IRQNumber < 64)
+        {
+            *NVIC_ICER1 |= (1 << (IRQNumber % 32));
+        }
+        // NVIC_ICER2 register
+        else if (IRQNumber >= 64 && IRQNumber < 96)
+        {
+            *NVIC_ICER2 |= (1 << (IRQNumber % 64));
+        }
+    }
+}
+void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority)
+{
+    uint8_t iprx = IRQNumber / 4;
+    uint8_t iprx_section = IRQNumber % 4;
+    uint8_t shift_amount = (8 * iprx_section) + (8 - NO_PR_BITS_IMPLEMENTED);
+    *(NVIC_PR_BASE_ADDR + iprx) |= (IRQPriority << shift_amount);
+}
+
+void SPI_TransmitDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pTxBuffer, uint32_t len)
+{
+    
+}
+void SPI_ReceiveDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pRxBuffer, uint32_t len)
+{
+
+}
+/****************************************************************************
  * @fn                  - SPI_PeripheralControl
  *
  * @brief               -
