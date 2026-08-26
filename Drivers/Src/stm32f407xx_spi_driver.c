@@ -260,7 +260,7 @@ void SPI_ReceiveData(SPI_RegDef_t* pSPIx, uint8_t* pRxBuffer, uint32_t len)
  */
 void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi)
 {
-        if (EnorDi == ENABLE)
+    if (EnorDi == ENABLE)
     {
         // NVIC_ISER0 register
         if (IRQNumber <= 31)
@@ -299,19 +299,41 @@ void SPI_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnorDi)
 }
 void SPI_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority)
 {
-    uint8_t iprx = IRQNumber / 4;
+    uint8_t iprx         = IRQNumber / 4;
     uint8_t iprx_section = IRQNumber % 4;
     uint8_t shift_amount = (8 * iprx_section) + (8 - NO_PR_BITS_IMPLEMENTED);
     *(NVIC_PR_BASE_ADDR + iprx) |= (IRQPriority << shift_amount);
 }
 
-void SPI_TransmitDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pTxBuffer, uint32_t len)
+uint8_t SPI_TransmitDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pTxBuffer, uint32_t len)
 {
-    
+    uint8_t state = pSPIHandle->TxState;
+    if (state != SPI_BUSY_IN_TX)
+    {
+        // 1. Save Tx buffer address and length information in some global variable
+        pSPIHandle->pTxBuffer = pTxBuffer;
+        pSPIHandle->TxLen     = len;
+        // 2. Mark the SPI state as busy in transmission so that no other code can take over same SPI peripheral until transmission is over
+        pSPIHandle->TxState = SPI_BUSY_IN_TX;
+        // 3. Enable the TXEIE control bit to get interrupt whenever TXE flag is set in SR
+        pSPIHandle->pSPIx->CR2 |= (1 << SPI_CR2_TXEIE);
+    }
+    return state;
 }
-void SPI_ReceiveDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pRxBuffer, uint32_t len)
+uint8_t SPI_ReceiveDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pRxBuffer, uint32_t len)
 {
-
+    uint8_t state = pSPIHandle->RxState;
+    if (state != SPI_BUSY_IN_RX)
+    {
+        // 1. Save Tx buffer address and length information in some global variable
+        pSPIHandle->pRxBuffer = pRxBuffer;
+        pSPIHandle->RxLen     = len;
+        // 2. Mark the SPI state as busy in transmission so that no other code can take over same SPI peripheral until transmission is over
+        pSPIHandle->RxState = SPI_BUSY_IN_RX;
+        // 3. Enable the TXEIE control bit to get interrupt whenever TXE flag is set in SR
+        pSPIHandle->pSPIx->CR2 |= (1 << SPI_CR2_RXNEIE);
+    }
+    return state;
 }
 /****************************************************************************
  * @fn                  - SPI_PeripheralControl

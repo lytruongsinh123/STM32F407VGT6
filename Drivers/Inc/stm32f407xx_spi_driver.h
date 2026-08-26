@@ -96,15 +96,6 @@ typedef struct
     uint8_t       TxState;   /* !< To store Tx state > */
     uint8_t       RxState;   /* !< To store Rx state > */
 } SPI_Handle_t;
-/*
- * Handle structure for SPIx peripheral
- */
-typedef struct
-{
-    SPI_RegDef_t* pSPIx;
-    SPI_Config_t  SPIConfig;
-} SPI_Handle_t;
-
 /********************************************************************************************
  *                               APIs supported by this driver
  *             For more information about the APIs check the function definitions
@@ -126,8 +117,8 @@ void SPI_DeInit(SPI_RegDef_t* pSPIx);
 void SPI_TransmitData(SPI_RegDef_t* pSPIx, uint8_t* pTxBuffer, uint32_t len);
 void SPI_ReceiveData(SPI_RegDef_t* pSPIx, uint8_t* pRxBuffer, uint32_t len);
 
-void SPI_TransmitDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pTxBuffer, uint32_t len);
-void SPI_ReceiveDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pRxBuffer, uint32_t len);
+uint8_t SPI_TransmitDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pTxBuffer, uint32_t len);
+uint8_t SPI_ReceiveDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pRxBuffer, uint32_t len);
 /*
  * IRQ Configuration and ISR handling
  */
