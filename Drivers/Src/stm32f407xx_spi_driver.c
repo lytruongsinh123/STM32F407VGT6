@@ -8,9 +8,9 @@
 
 #include "stm32f407xx.h"
 
-/*
- * Peripheral Clock Setup
- */
+static void spi_txe_interrupt_handle(SPI_Handle_t* pSPIHandle);
+static void spi_rxne_interrupt_handle(SPI_Handle_t* pSPIHandle);
+static void spi_ovr_interrupt_handle(SPI_Handle_t* pSPIHandle);
 /****************************************************************************
  * @fn                  - SPI_PCLKControl
  *
@@ -335,6 +335,72 @@ uint8_t SPI_ReceiveDataIT(SPI_Handle_t* pSPIHandle, uint8_t* pRxBuffer, uint32_t
     }
     return state;
 }
+void SPI_IRQHandling(SPI_Handle_t* pSPIHandle)
+{
+    uint8_t temp1, temp2;
+    // 1. First lets check for TXE
+    temp1 = pSPIHandle->pSPIx->SR & (1 << SPI_SR_TXE);
+    temp2 = pSPIHandle->pSPIx->CR2 & (1 << SPI_CR2_TXEIE);
+    if (temp1 && temp2)
+    {
+        // 2. Handle TXE
+        spi_txe_interrupt_handle(pSPIHandle);
+    }
+    // 1. First lets check for RXNE
+    temp1 = pSPIHandle->pSPIx->SR & (1 << SPI_SR_RXNE);
+    temp2 = pSPIHandle->pSPIx->CR2 & (1 << SPI_CR2_RXNEIE);
+    if (temp1 && temp2)
+    {
+        // 2. Handle RXNE
+        spi_rxne_interrupt_handle(pSPIHandle);
+    }
+    // 1. First lets check for OVR
+    temp1 = pSPIHandle->pSPIx->SR & (1 << SPI_SR_OVR);
+    temp2 = pSPIHandle->pSPIx->CR2 & (1 << SPI_CR2_ERRIE);
+    if (temp1 && temp2)
+    {
+        // 2. Handle RXNE
+        spi_ovr_interrupt_handle(pSPIHandle);
+    }
+}
+// Some helper function implementations
+static void spi_txe_interrupt_handle(SPI_Handle_t* pSPIHandle)
+{
+    if ((pSPIHandle->pSPIx->CR1 & (1 << SPI_CR1_DFF)))
+    {
+        // 16 bit DFF
+        // 1. Load the data in to the DR
+        pSPIHandle->pSPIx->DR = *((uint16_t*)pSPIHandle->pTxBuffer);
+        // 2. Update the remaining data length (2 bytes transmitted)
+        pSPIHandle->TxLen--;
+        pSPIHandle->TxLen--;
+        // 3. Move the transmit buffer pointer to the next 2 bytes
+        (uint16_t*)pSPIHandle->pTxBuffer++;
+    }
+    else
+    {
+        // 8 bit DFF
+        pSPIHandle->pSPIx->DR = *(pSPIHandle->pTxBuffer);
+        // 2. Update the remaining data length (2 bytes transmitted)
+        pSPIHandle->TxLen--;
+        // 3. Move the transmit buffer pointer to the next 2 bytes
+        pSPIHandle->pTxBuffer++;
+    }
+    if (!pSPIHandle->TxLen)
+    {
+        // TxLen is 0, close the spi communication and inform the application that
+        // Tx is over
+
+        // This prevents interrupt from setting up of TXE flags
+        pSPIHandle->pSPIx->CR2 &= ~(1 << SPI_CR2_TXEIE);
+        pSPIHandle->pTxBuffer = NULL;
+        pSPIHandle->TxLen     = 0;
+        pSPIHandle->TxState   = SPI_READY;
+        SPI_ApplicationEventCallback(pSPIHandle, SPI_EVENT_TX_CMPLT);
+    }
+}
+static void spi_rxne_interrupt_handle(SPI_Handle_t* pSPIHandle);
+static void spi_ovr_interrupt_handle(SPI_Handle_t* pSPIHandle);
 /****************************************************************************
  * @fn                  - SPI_PeripheralControl
  *

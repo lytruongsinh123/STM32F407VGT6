@@ -72,6 +72,13 @@
 #define SPI_BUSY_IN_RX 1
 #define SPI_BUSY_IN_TX 2
 
+/*
+ * Possible SPI Application events
+ */
+#define SPI_EVENT_TX_CMPLT 1
+#define SPI_EVENT_RX_CMPLT 2
+#define SPI_EVENT_OVR_ERR  3
+#define SPI_EVENT_CRC_ERR  4
 typedef struct
 {
     uint8_t SPI_DeviceMode;
