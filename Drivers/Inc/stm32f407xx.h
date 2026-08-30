@@ -8,10 +8,12 @@
 #ifndef DRIVERS_INC_STM32F407XX_H_
 #define DRIVERS_INC_STM32F407XX_H_
 
+#include <stddef.h>
 #include <stdint.h>
 #include <string.h>
-#include <stddef.h>
-#define __vo volatile
+
+#define __vo   volatile
+#define __weak __attribute__((weak))
 /*
  * ARM Cortex M4 Processor NVIC ISERx register Address
  */
@@ -268,8 +270,8 @@ typedef struct
 #define IRQ_NO_SPI3      51
 #define IRQ_NO_SPI4      84
 
-#define NVIC_IRQ_PRIO0   0
-#define NVIC_IRQ_PRIO15  15
+#define NVIC_IRQ_PRIO0  0
+#define NVIC_IRQ_PRIO15 15
 
 /*
  * Clock Enable Macros for I2Cx Pheripheral

@@ -392,15 +392,49 @@ static void spi_txe_interrupt_handle(SPI_Handle_t* pSPIHandle)
         // Tx is over
 
         // This prevents interrupt from setting up of TXE flags
-        pSPIHandle->pSPIx->CR2 &= ~(1 << SPI_CR2_TXEIE);
-        pSPIHandle->pTxBuffer = NULL;
-        pSPIHandle->TxLen     = 0;
-        pSPIHandle->TxState   = SPI_READY;
+        SPI_CloseTransmission(pSPIHandle);
         SPI_ApplicationEventCallback(pSPIHandle, SPI_EVENT_TX_CMPLT);
     }
 }
-static void spi_rxne_interrupt_handle(SPI_Handle_t* pSPIHandle);
-static void spi_ovr_interrupt_handle(SPI_Handle_t* pSPIHandle);
+static void spi_rxne_interrupt_handle(SPI_Handle_t* pSPIHandle)
+{
+    // do rxing as per the dff
+    if (pSPIHandle->pSPIx->CR1 & (1 << 11))
+    {
+        // 16 bit
+        *((uint16_t*)pSPIHandle->pRxBuffer) = (uint16_t)pSPIHandle->pSPIx->DR;
+        pSPIHandle->RxLen -= 2;
+        pSPIHandle->pRxBuffer++;
+        pSPIHandle->pRxBuffer++;
+    }
+    else
+    {
+        // 8 bit
+        *(pSPIHandle->pRxBuffer) = (uint8_t)pSPIHandle->pSPIx->DR;
+        pSPIHandle->RxLen--;
+        pSPIHandle->pRxBuffer++;
+    }
+
+    if (!pSPIHandle->RxLen)
+    {
+        // reception is complete
+        SPI_CloseReception(pSPIHandle);
+        SPI_ApplicationEventCallback(pSPIHandle, SPI_EVENT_RX_CMPLT);
+    }
+}
+static void spi_ovr_interrupt_handle(SPI_Handle_t* pSPIHandle)
+{
+    uint8_t temp;
+    // 1. Clear the OVR flag
+    if (pSPIHandle->TxState != SPI_BUSY_IN_TX)
+    {
+        temp = pSPIHandle->pSPIx->DR;
+        temp = pSPIHandle->pSPIx->SR;
+    }
+    (void)temp;
+    // 2. Inform the application
+    SPI_ApplicationEventCallback(pSPIHandle, SPI_EVENT_OVR_ERR);
+}
 /****************************************************************************
  * @fn                  - SPI_PeripheralControl
  *
@@ -472,4 +506,29 @@ void SPI_SSOEConfig(SPI_RegDef_t* pSPIx, uint8_t EnorDi)
     {
         pSPIx->CR2 &= ~(1 << SPI_CR2_SSOE);
     }
+}
+void SPI_ClearOVRFlag(SPI_RegDef_t* pSPIx)
+{
+    uint8_t temp;
+    temp = pSPIx->DR;
+    temp = pSPIx->SR;
+    (void)temp;
+}
+void SPI_CloseTransmission(SPI_Handle_t* pSPIHandle)
+{
+    pSPIHandle->pSPIx->CR2 &= ~(1 << SPI_CR2_TXEIE);
+    pSPIHandle->pTxBuffer = NULL;
+    pSPIHandle->TxLen     = 0;
+    pSPIHandle->TxState   = SPI_READY;
+}
+void SPI_CloseReception(SPI_Handle_t* pSPIHandle)
+{
+    pSPIHandle->pSPIx->CR2 &= ~(1 << SPI_CR2_RXNEIE);
+    pSPIHandle->pRxBuffer = NULL;
+    pSPIHandle->RxLen     = 0;
+    pSPIHandle->RxState   = SPI_READY;
+}
+__weak void SPI_ApplicationEventCallback(SPI_Handle_t* pSPIHandle, uint8_t AppEvent)
+{
+    // The application may override this function
 }
